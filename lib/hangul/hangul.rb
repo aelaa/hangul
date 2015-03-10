@@ -1,32 +1,40 @@
-require 'korean-string'
-require_relative 'table.rb'
-
 module Hangul
   class Hangul
-    def korean_symbol?(text)
-      (0xAC00..0xD7A3).include?(text.unpack('U*')[0]) ||
-      (0x3131..0x318E).include?(text.unpack('U*')[0]) ||
-      (0xA960..0xA97C).include?(text.unpack('U*')[0]) ||
-      (0xD7B0..0xD7BF).include?(text.unpack('U*')[0])
+    attr_reader :dictionaries
+
+    def initialize(&params)
+      @dictionaries = {}
+      @DICT_DIR = params ? params[:dict_dir] : 'lib/dictionaries/'
+      # Loading dictionaries
+      Dir.foreach(@DICT_DIR) do |file|
+        # We don't want '.', '..' and hidden files
+        next if file[0] == '.'
+        dict_name = file.split('.').first
+        @dictionaries[dict_name] = YAML.load_file(@DICT_DIR + file)
+      end
     end
 
-    def self.to_roman(text)
-      result = ''
-      text.concat(' ').split('').each_cons(2) do |a|
-        tr_a = a.join.split_ko
-        tr_a[0].map! do |char|
-          if HANGUL_TABLE.include? char
-            if HANGUL_TABLE[char].class == Array
-              char = HANGUL_TABLE[char][tr_a[0].index(char)]
-            else
-              char = HANGUL_TABLE[char]
-            end
-          end
-          char
+    def transcript(from, to, text)
+      from_dict = @dictionaries[from]
+      to_dict = @dictionaries[to]
+      out = ''
+      if from_dict && to_dict
+        # To transcript language
+        text.each_char do |char|
+          out += (from_dict['table'][char] || char.to_s)
         end
-        result << tr_a[0].join
+        return out
+      else
+        raise ArgumentError, "There is no dictionary: #{from.to_s if from_dict.nil?}#{", " + to.to_s if to_dict.nil?}"
       end
-      result
     end
+
+    def dictionaries
+      @dictionaries.keys
+    end
+
+    # Generate transcript method
+    # def method_missing(name, *args, &block)
+    # end
   end
 end

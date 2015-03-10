@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ['aelaa']
   spec.email         = ['aelaau@gmail.com']
   spec.description   = 'Hangul -> English transcription'
-  spec.summary       = 'Gem translates Hangul text into English transcription'
+  spec.summary       = 'Multi-language transcription'
   spec.homepage      = 'http://github.com/aelaa/hangul'
   spec.license       = 'MIT'
 
@@ -24,5 +24,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'minitest'
   spec.add_development_dependency 'pre-commit'
   spec.add_development_dependency 'rubocop'
+  spec.add_development_dependency 'pry'
   spec.add_development_dependency 'korean-string'
 end
