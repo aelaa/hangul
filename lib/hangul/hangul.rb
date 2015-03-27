@@ -15,13 +15,21 @@ module Hangul
     end
 
     def transcript(from, to, text)
-      from_dict = @dictionaries[from]
-      to_dict = @dictionaries[to]
+      from_dict = @dictionaries[from.to_s]
+      to_dict = @dictionaries[to.to_s]
+      preout = ''
       out = ''
       if from_dict && to_dict
         # To transcript language
         text.each_char do |char|
-          out += (from_dict['table'][char] || char.to_s)
+          out += (from_dict['table']['from'][char] || char.to_s)
+        end
+        unless to_dict['name'] == 'transcript'
+          # To end language
+          out.each_char do |char|
+            preout += (to_dict['table']['to'][char] || char.to_s)
+          end
+          out = preout
         end
         return out
       else
