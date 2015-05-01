@@ -37,7 +37,7 @@ table:
     g: 'ɡ'
     h: 'h'
     i: 'i'
-    j: 'dʐ'
+    j: 'y'
     k: 'k'
     l: 'l'
     m: 'm'
@@ -54,3 +54,4 @@ table:
     x: 'ks'
     y: 'y'
     z: 'z'
+    ɯ: 'eu'
