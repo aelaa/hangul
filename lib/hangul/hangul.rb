@@ -5,7 +5,7 @@ module Hangul
 
     def initialize(&params)
       @dictionaries = {}
-      @DICT_DIR = params ? params[:dict_dir] : '/home/aelaa/projects/hangul/lib/dictionaries/'
+      @DICT_DIR = params ? params[:dict_dir] : '/Users/aelaa/projects/hangul/lib/dictionaries/'
       # Loading dictionaries
       Dir.foreach(@DICT_DIR) do |file|
         # We don't want '.', '..' and hidden files

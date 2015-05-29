@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class HangulTest < MiniTest::Test
-  include Hangul
 
   def setup
   end
