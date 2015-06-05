@@ -22,7 +22,7 @@ module Hangul
       out = ''
       if from_dict && to_dict
         # To transcript language
-        if from == :korean
+        if from == 'korean'
           text.concat(' ').split('').each_cons(2) do |a|
             tr_a = a.join.split_ko
             tr_a[0].map! do |char|
