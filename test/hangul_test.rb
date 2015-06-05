@@ -22,8 +22,4 @@ class HangulTest < MiniTest::Test
   def test_en_ru
     assert_equal "хелло", @hangul.transcript(:english, :russian, 'hello')[1]
   end
-
-  def test_fr_ru
-    assert_equal "бонжур", @hangul.transcript(:french, :russian, 'bonjour')[1]
-  end
 end
