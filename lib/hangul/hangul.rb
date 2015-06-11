@@ -5,8 +5,13 @@ module Hangul
 
     def initialize(&params)
       @dictionaries = {}
-      @DICT_DIR = params ? params[:dict_dir] : '/Users/aelaa/projects/hangul/lib/dictionaries/'
+      @DICT_DIR = params ? params[:dict_dir] : '/Users/aelaa/projects/hangul/lib/processors/'
       # Loading dictionaries
+      Dir.foreach(@DICT_DIR) do |file|
+        next if file[0] == '.'
+        require @DICT_DIR + file
+      end
+      @DICT_DIR = params ? params[:dict_dir] : '/Users/aelaa/projects/hangul/lib/dictionaries/'
       Dir.foreach(@DICT_DIR) do |file|
         # We don't want '.', '..' and hidden files
         next if file[0] == '.'
@@ -42,7 +47,9 @@ module Hangul
             preout += (from_dict['table']['from'][char] || char.to_s)
           end
         end
-        unless to_dict['name'] == 'transcript'
+        if to_dict['name'] == 'transcript'
+          out = preout
+        else
           # To end language
           preout.each_char do |char|
             out += (to_dict['table']['to'][char] || char.to_s)
